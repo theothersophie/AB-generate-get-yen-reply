@@ -2,6 +2,8 @@
 // @name        Get yen for raw manga and novels reply generator
 // @author      theothersophie
 // @include     *animebytes.tv/alltorrents.php?type=uploaded*
+// @namespace   https://github.com/theothersophie/AB-generate-get-yen-reply/raw/master/AB-generate-get-yen-reply.js
+// @downloadURL https://github.com/theothersophie/AB-generate-get-yen-reply/raw/master/AB-generate-get-yen-reply.js
 // @require     https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @grant       GM.xmlHttpRequest
 // @version     2018.05.08
