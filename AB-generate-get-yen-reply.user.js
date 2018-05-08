@@ -25,8 +25,6 @@ $("#generate_reply").click(function() {
 
 //Create array of all torrent links on the page
 function get_torrent_links() {
-
-
   $("a").each(function(index) {
     if (this.href.search('torrentid') != -1) {
       torrentLinks.push(this.href);
@@ -46,6 +44,7 @@ function get_html() {
 
   var fetch = setInterval(function getData() {
     console.log(url);
+    load_message(url);
     var request = $.ajax({
       url: url,
       dataType: 'html',
@@ -63,6 +62,12 @@ function get_html() {
 
 }
 
+function load_message(url) {
+  count = torrentLinks.indexOf(url) + 1;
+  msg = 'Processing ' + count.toString() + ' of ' + torrentLinks.length.toString() + '...';
+  $("#generate_reply").text(msg);
+}
+
 function get_reply() {
   //parse all the pages
   for (i = 0; i < html_array.length; i++) {
@@ -71,7 +76,7 @@ function get_reply() {
     output_array.push(item);
   }
 
-  output_array.push('Total yen: ' + totalYen);
+  output_array.push('Total yen: ' + totalYen + 'k');
 
   add_dialog_html();
   $(function() {
