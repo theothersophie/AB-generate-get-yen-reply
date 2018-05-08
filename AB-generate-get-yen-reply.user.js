@@ -5,32 +5,45 @@
 // @namespace   https://github.com/theothersophie/AB-generate-get-yen-reply/raw/master/AB-generate-get-yen-reply.user.js
 // @downloadURL https://github.com/theothersophie/AB-generate-get-yen-reply/raw/master/AB-generate-get-yen-reply.user.js
 // @require     https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js
+// @require     https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js
 // @version     2018.05.08
 // @run-at      document-end
 // ==/UserScript==
 
 //jshint esversion: 6
-
 torrentLinks = [];
 html_array = [];
 output_array = [];
+totalYen = 0;
 
 button_html = `<button id="generate_reply" style="float:right;">Generate thread reply</button>`;
 $("#content").prepend(button_html);
 
-$("#generate_reply").click(get_torrent_links());
+$("#generate_reply").click(function() {
+  get_torrent_links();
+});
 
 //Create array of all torrent links on the page
 function get_torrent_links() {
+
+
   $("a").each(function(index) {
     if (this.href.search('torrentid') != -1) {
       torrentLinks.push(this.href);
     }
   });
 
+  get_html();
+}
+
+
+function get_html() {
+
   var counter = 0;
   url = torrentLinks[counter];
+
   //wait before every request to avoid hitting rate limit
+
   var fetch = setInterval(function getData() {
     console.log(url);
     var request = $.ajax({
@@ -47,15 +60,18 @@ function get_torrent_links() {
     counter++;
     url = torrentLinks[counter];
   }, 1000);
+
 }
 
 function get_reply() {
   //parse all the pages
   for (i = 0; i < html_array.length; i++) {
-    item = generate_reply(html_array[i]);
+    item = generate_reply(html_array[i], torrentLinks[i]);
     //Add the formatted info to the main array
     output_array.push(item);
   }
+
+  output_array.push('Total yen: ' + totalYen);
 
   add_dialog_html();
   $(function() {
@@ -82,7 +98,7 @@ function add_dialog_html() {
   $("body").append(html);
 }
 
-function generate_reply(html) {
+function generate_reply(html, url) {
   //parse it for the volume count, whether it's complete series, whether files are EPUB format
   vol_count = get_vol_count(html);
   is_complete = get_is_complete(html);
@@ -112,6 +128,8 @@ function format_data(url, vol_count, is_complete, is_digital) {
   } else {
     yen = vol_count * 3;
   }
+
+  totalYen += yen;
 
   torrent_line = '[torrent]' + url + '[/torrent]';
 
