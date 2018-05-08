@@ -11,14 +11,14 @@
 
 //jshint esversion: 6
 
+torrentLinks = [];
+html_array = [];
+output_array = [];
+
 button_html = `<button id="generate_reply" style="float:right;">Generate thread reply</button>`;
 $("#content").prepend(button_html);
 
 $("#generate_reply").click(get_torrent_links());
-
-torrentLinks = [];
-html_array = [];
-output_array = [];
 
 //Create array of all torrent links on the page
 function get_torrent_links() {
