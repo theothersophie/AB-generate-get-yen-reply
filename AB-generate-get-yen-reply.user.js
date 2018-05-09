@@ -126,12 +126,16 @@ function get_is_digital(html) {
 }
 
 function format_data(url, vol_count, is_complete, is_digital) {
-  if (is_complete && is_digital) {
-    yen = vol_count * 5 + 10;
-  } else if (is_complete) {
-    yen = vol_count * 3 + 10;
+  if (is_complete) {
+    bonus = 10;
   } else {
-    yen = vol_count * 3;
+    bonus = 0;
+  }
+
+  if (is_digital) {
+    yen = vol_count * 5 + bonus;
+  } else {
+    yen = vol_count * 3 + bonus;
   }
 
   totalYen += yen;
