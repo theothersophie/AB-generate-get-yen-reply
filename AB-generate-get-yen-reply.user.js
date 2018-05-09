@@ -122,7 +122,7 @@ function get_is_complete(html) {
 }
 
 function get_is_digital(html) {
-  return html.search('EPUB') > -1;
+  return html.search(/Raw \| EPUB/) > -1;
 }
 
 function format_data(url, vol_count, is_complete, is_digital) {
