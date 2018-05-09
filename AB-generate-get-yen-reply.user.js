@@ -76,7 +76,7 @@ function get_reply() {
     output_array.push(item);
   }
 
-  output_array.push('Total yen: ' + totalYen + 'k');
+  output_array.push('Total yen: ' + totalYen.toString() + 'k');
 
   add_dialog_html();
   $(function() {
